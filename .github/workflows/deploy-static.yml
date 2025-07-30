@@ -154,6 +154,132 @@ jobs:
                 .bg-green { background-color: #8fbc8f; }
                 .bg-purple { background-color: #dda0dd; }
                 .bg-pink { background-color: #f8bbd9; }
+                
+                /* Mindmap 樣式 */
+                .mindmap-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    z-index: 9999;
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .mindmap-container {
+                    background: white;
+                    border-radius: 20px;
+                    padding: 30px;
+                    max-width: 95vw;
+                    max-height: 95vh;
+                    overflow: auto;
+                    position: relative;
+                }
+                .mindmap-close {
+                    position: absolute;
+                    top: 15px;
+                    right: 20px;
+                    background: none;
+                    border: none;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    color: #666;
+                }
+                .mindmap-title {
+                    text-align: center;
+                    color: #2c5530;
+                    margin-bottom: 30px;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                }
+                
+                /* 心智圖節點樣式 */
+                .mindmap {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    min-height: 600px;
+                    position: relative;
+                }
+                .mindmap-center {
+                    background: #1a1a2e;
+                    color: white;
+                    padding: 20px 40px;
+                    border-radius: 15px;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    margin: 50px 0;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                }
+                .mindmap-branch {
+                    position: absolute;
+                    padding: 12px 20px;
+                    border-radius: 10px;
+                    font-weight: 500;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    min-width: 120px;
+                    text-align: center;
+                }
+                .mindmap-branch:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                }
+                .mindmap-sub {
+                    position: absolute;
+                    padding: 8px 15px;
+                    border-radius: 8px;
+                    font-size: 0.9rem;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    min-width: 100px;
+                    text-align: center;
+                    border: 2px solid white;
+                }
+                .mindmap-sub:hover {
+                    transform: scale(1.05);
+                }
+                
+                /* 分支顏色 */
+                .branch-creator { background: #4CAF50; color: white; }
+                .branch-portfolio { background: #FFC107; color: black; }
+                .branch-home { background: #FF9800; color: white; }
+                .branch-usage { background: #F44336; color: white; }
+                
+                /* 連接線 */
+                .mindmap-line {
+                    position: absolute;
+                    background: #666;
+                    transform-origin: 0 50%;
+                }
+                .line-h { height: 2px; }
+                .line-v { width: 2px; }
+                
+                /* 響應式設計 */
+                @media (max-width: 768px) {
+                    .mindmap-container {
+                        padding: 15px;
+                        margin: 10px;
+                    }
+                    .mindmap-center {
+                        font-size: 1.2rem;
+                        padding: 15px 25px;
+                    }
+                    .mindmap-branch {
+                        padding: 8px 12px;
+                        font-size: 0.9rem;
+                        min-width: 100px;
+                    }
+                    .mindmap-sub {
+                        padding: 6px 10px;
+                        font-size: 0.8rem;
+                        min-width: 80px;
+                    }
+                }
             </style>
         </head>
         <body>
@@ -171,6 +297,9 @@ jobs:
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#contact">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" id="mindmapBtn">🗺️ Mindmap</a>
                             </li>
                         </ul>
                         <button class="btn btn-outline-danger rounded-pill px-4">Log in</button>
@@ -281,6 +410,78 @@ jobs:
                 </div>
             </section>
 
+            <!-- Mindmap Overlay -->
+            <div class="mindmap-overlay" id="mindmapOverlay">
+                <div class="mindmap-container">
+                    <button class="mindmap-close" id="mindmapClose">&times;</button>
+                    <h3 class="mindmap-title">Catcher 網站架構圖</h3>
+                    <div class="mindmap" id="mindmapCanvas">
+                        <!-- 中心節點 -->
+                        <div class="mindmap-center" style="top: 300px; left: 50%; transform: translateX(-50%);">
+                            Catcher
+                        </div>
+                        
+                        <!-- 創作者頁面分支 -->
+                        <div class="mindmap-branch branch-creator" style="top: 100px; left: 15%;">
+                            創作者頁面
+                        </div>
+                        
+                        <!-- 作品頁面分支 -->
+                        <div class="mindmap-branch branch-portfolio" style="top: 200px; left: 5%;">
+                            作品頁面
+                        </div>
+                        
+                        <!-- 首頁分支 -->
+                        <div class="mindmap-branch branch-home" style="top: 500px; left: 5%;">
+                            首頁
+                        </div>
+                        
+                        <!-- 使用流程分支 -->
+                        <div class="mindmap-branch branch-usage" style="top: 200px; right: 5%;">
+                            使用流程
+                        </div>
+                        
+                        <!-- 使用流程子節點 -->
+                        <div class="mindmap-sub bg-pink" style="top: 50px; right: 15%;">
+                            進入首頁
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 90px; right: 30%;">
+                            顯示Logo和名稱<br>可登入帳號
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 140px; right: 25%;">
+                            顯示推薦作品
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 180px; right: 35%;">
+                            關鍵字搜尋<br>依推薦序顯示搜尋結果
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 230px; right: 20%;">
+                            點擊主要分類<br>依推薦序顯示作品列表
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 280px; right: 35%;">
+                            顯示創作者各類和頭像
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 320px; right: 15%;">
+                            進入作品頁面
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 360px; right: 30%;">
+                            顯示作品圖、動圖或影片<br>顯示作品資訊<br>顯示作品價格
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 420px; right: 25%;">
+                            點擊購買
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 460px; right: 35%;">
+                            登入帳號<br>開始交易流程<br>一對一金流資訊<br>確認交易，訂單成立
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 520px; right: 15%;">
+                            進入創作者頁面
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 560px; right: 30%;">
+                            顯示頭像<br>顯示個人資訊<br>顯示作品列表
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Demo Notice -->
             <section class="py-3 bg-warning">
                 <div class="container">
@@ -314,6 +515,117 @@ jobs:
             <script src="js/site.js"></script>
             
             <script>
+                // Mindmap 功能
+                const mindmapBtn = document.getElementById('mindmapBtn');
+                const mindmapOverlay = document.getElementById('mindmapOverlay');
+                const mindmapClose = document.getElementById('mindmapClose');
+                
+                // 顯示 Mindmap
+                mindmapBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    mindmapOverlay.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    
+                    // 動畫效果
+                    mindmapOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        mindmapOverlay.style.opacity = '1';
+                    }, 10);
+                });
+                
+                // 關閉 Mindmap
+                function closeMindmap() {
+                    mindmapOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        mindmapOverlay.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }, 300);
+                }
+                
+                mindmapClose.addEventListener('click', closeMindmap);
+                
+                // 點擊背景關閉
+                mindmapOverlay.addEventListener('click', function(e) {
+                    if (e.target === mindmapOverlay) {
+                        closeMindmap();
+                    }
+                });
+                
+                // ESC 鍵關閉
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && mindmapOverlay.style.display === 'flex') {
+                        closeMindmap();
+                    }
+                });
+                
+                // Mindmap 節點點擊功能
+                document.querySelectorAll('.mindmap-branch, .mindmap-sub').forEach(node => {
+                    node.addEventListener('click', function() {
+                        const nodeText = this.textContent.trim();
+                        let message = '';
+                        
+                        switch(nodeText) {
+                            case '創作者頁面':
+                                message = '創作者頁面功能：\n• 個人檔案展示\n• 作品集管理\n• 接案狀態設定\n\n開發狀態：規劃中';
+                                break;
+                            case '作品頁面':
+                                message = '作品頁面功能：\n• 作品詳細展示\n• 價格和規格說明\n• 購買流程\n\n開發狀態：設計中';
+                                break;
+                            case '首頁':
+                                message = '首頁功能：\n• 品牌展示\n• 搜尋功能\n• 分類瀏覽\n• 推薦作品\n\n開發狀態：已完成基礎版';
+                                break;
+                            case '使用流程':
+                                message = '使用流程包含：\n• 瀏覽到購買的完整流程\n• 用戶註冊登入\n• 交易系統\n\n開發狀態：流程設計中';
+                                break;
+                            default:
+                                message = `${nodeText}\n\n這是網站功能的一部分，正在開發中...`;
+                        }
+                        
+                        alert(message);
+                    });
+                });
+                
+                // 動態更新 Mindmap 數據結構
+                const mindmapData = {
+                    center: 'Catcher',
+                    branches: [
+                        {
+                            name: '創作者頁面',
+                            color: 'branch-creator',
+                            status: '規劃中',
+                            features: ['個人檔案', '作品集', '接案設定']
+                        },
+                        {
+                            name: '作品頁面', 
+                            color: 'branch-portfolio',
+                            status: '設計中',
+                            features: ['作品展示', '價格說明', '購買流程']
+                        },
+                        {
+                            name: '首頁',
+                            color: 'branch-home', 
+                            status: '已完成',
+                            features: ['品牌展示', '搜尋', '分類', '推薦']
+                        },
+                        {
+                            name: '使用流程',
+                            color: 'branch-usage',
+                            status: '設計中', 
+                            features: ['註冊登入', '瀏覽', '購買', '交易']
+                        }
+                    ]
+                };
+                
+                // 更新狀態的函數（供開發時使用）
+                function updateMindmapStatus(branchName, newStatus) {
+                    const branch = mindmapData.branches.find(b => b.name === branchName);
+                    if (branch) {
+                        branch.status = newStatus;
+                        console.log(`${branchName} 狀態已更新為: ${newStatus}`);
+                        // 這裡可以添加重新渲染 mindmap 的邏輯
+                    }
+                }
+                
                 // 搜尋標籤切換功能
                 document.querySelectorAll('.search-tab').forEach(tab => {
                     tab.addEventListener('click', function() {
