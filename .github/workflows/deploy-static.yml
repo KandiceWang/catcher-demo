@@ -38,165 +38,273 @@ jobs:
         <head>
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>Catcher Demo - 台灣創作者接發案平台</title>
+            <title>Catcher - 連接客戶與自由工作者</title>
             <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
             <link rel="stylesheet" href="css/site.css" />
             <link rel="icon" href="favicon.ico" />
+            <style>
+                body {
+                    background-color: #f5f4f0;
+                    font-family: 'Arial', sans-serif;
+                }
+                .navbar-brand {
+                    color: #2c5530 !important;
+                    font-weight: bold;
+                    font-size: 1.5rem;
+                }
+                .navbar-brand::before {
+                    content: "🕸️ ";
+                }
+                .hero-section {
+                    background-color: #f5f4f0;
+                    padding: 80px 0;
+                }
+                .hero-title {
+                    color: #2c5530;
+                    font-size: 3.5rem;
+                    font-weight: bold;
+                    line-height: 1.2;
+                    margin-bottom: 20px;
+                }
+                .search-container {
+                    background: linear-gradient(135deg, #a8d5e2 0%, #7fb8c4 100%);
+                    border-radius: 20px;
+                    padding: 40px;
+                    margin: 40px 0;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                }
+                .search-tabs {
+                    margin-bottom: 30px;
+                }
+                .search-tab {
+                    background: #2c5530;
+                    color: white;
+                    border: none;
+                    padding: 12px 30px;
+                    border-radius: 25px;
+                    margin-right: 10px;
+                    font-weight: 500;
+                }
+                .search-tab.active {
+                    background: white;
+                    color: #2c5530;
+                }
+                .search-input-group {
+                    position: relative;
+                }
+                .search-input {
+                    border: none;
+                    border-radius: 25px;
+                    padding: 15px 25px;
+                    font-size: 1.1rem;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                }
+                .search-btn {
+                    background: #ff6b4a;
+                    border: none;
+                    border-radius: 25px;
+                    color: white;
+                    padding: 15px 30px;
+                    font-weight: bold;
+                    margin-left: 10px;
+                }
+                .categories-section {
+                    padding: 60px 0;
+                }
+                .section-title {
+                    color: #2c5530;
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                    text-align: center;
+                    margin-bottom: 50px;
+                }
+                .category-card {
+                    border-radius: 15px;
+                    padding: 30px 20px;
+                    text-align: center;
+                    margin-bottom: 20px;
+                    transition: transform 0.3s ease;
+                    border: none;
+                    height: 180px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+                .category-card:hover {
+                    transform: translateY(-5px);
+                }
+                .category-icon {
+                    font-size: 2.5rem;
+                    margin-bottom: 15px;
+                }
+                .category-title {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    color: #2c5530;
+                    margin: 0;
+                }
+                .category-subtitle {
+                    font-size: 0.9rem;
+                    color: #666;
+                    margin: 5px 0 0 0;
+                }
+                .bg-blue { background-color: #a8d5e2; }
+                .bg-yellow { background-color: #f4e4a6; }
+                .bg-orange { background-color: #f4a261; }
+                .bg-green { background-color: #8fbc8f; }
+                .bg-purple { background-color: #dda0dd; }
+                .bg-pink { background-color: #f8bbd9; }
+            </style>
         </head>
         <body>
-            <header>
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="#"><strong>🎨 Catcher</strong></a>
-                        <div class="navbar-nav">
-                            <a class="nav-link text-dark" href="#home">首頁</a>
-                            <a class="nav-link text-dark" href="#services">服務</a>
-                            <a class="nav-link text-dark" href="#about">關於</a>
-                        </div>
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+                <div class="container">
+                    <a class="navbar-brand" href="#">CATCHER</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about">About us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contact">Contact</a>
+                            </li>
+                        </ul>
+                        <button class="btn btn-outline-danger rounded-pill px-4">Log in</button>
                     </div>
-                </nav>
-            </header>
+                </div>
+            </nav>
 
-            <main>
-                <!-- Hero Section -->
-                <section id="home" class="hero-section bg-primary text-white py-5">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-lg-6">
-                                <h1 class="display-4 fw-bold">台灣創作者接發案平台</h1>
-                                <p class="lead mb-4">連接創作者與客戶，讓創意變現更簡單</p>
-                                <div class="d-grid gap-2 d-md-flex">
-                                    <button class="btn btn-light btn-lg px-4" type="button">開始接案</button>
-                                    <button class="btn btn-outline-light btn-lg px-4" type="button">發布需求</button>
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <h1 class="hero-title">
+                                Connecting clients in<br>
+                                need to freelancers<br>
+                                who deliver
+                            </h1>
+                        </div>
+                        <div class="col-lg-6">
+                            <!-- Search Container -->
+                            <div class="search-container">
+                                <div class="search-tabs">
+                                    <button class="search-tab active">Find talent</button>
+                                    <button class="search-tab">Browse jobs</button>
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="text-center">
-                                    <div class="bg-white rounded p-4 shadow">
-                                        <h3 class="text-dark">功能特色</h3>
-                                        <ul class="list-unstyled text-dark">
-                                            <li>🎨 創作者服務展示</li>
-                                            <li>🔍 智慧搜尋與篩選</li>
-                                            <li>💬 即時訊息系統</li>
-                                            <li>💰 透明的定價機制</li>
-                                            <li>⭐ 評價與信任系統</li>
-                                        </ul>
+                                <div class="search-input-group">
+                                    <div class="d-flex">
+                                        <input type="text" class="form-control search-input flex-grow-1" 
+                                               placeholder="Search by role, or keywords">
+                                        <button class="btn search-btn">🔍 search</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- Services Section -->
-                <section id="services" class="py-5">
-                    <div class="container">
-                        <h2 class="text-center mb-5">熱門服務</h2>
-                        <div class="row">
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">專業Logo設計</h5>
-                                        <p class="card-text">設計師小明</p>
-                                        <p class="text-muted">平面設計</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="h5 text-primary">NT$ 1,500</span>
-                                            <small class="text-muted">⭐ 4.8 (127)</small>
-                                        </div>
-                                    </div>
-                                </div>
+            <!-- Categories Section -->
+            <section class="categories-section">
+                <div class="container">
+                    <h2 class="section-title">Explore millions of pros</h2>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-yellow">
+                                <div class="category-icon">&lt;/&gt;</div>
+                                <h5 class="category-title">Development &amp;</h5>
+                                <p class="category-subtitle">IT</p>
                             </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">網站UI/UX設計</h5>
-                                        <p class="card-text">設計師小華</p>
-                                        <p class="text-muted">UI/UX設計</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="h5 text-primary">NT$ 3,000</span>
-                                            <small class="text-muted">⭐ 4.9 (89)</small>
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-blue">
+                                <div class="category-icon">🎨</div>
+                                <h5 class="category-title">Designice</h5>
+                                <p class="category-subtitle">Creative</p>
                             </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">品牌識別設計</h5>
-                                        <p class="card-text">設計師小美</p>
-                                        <p class="text-muted">品牌設計</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="h5 text-primary">NT$ 5,000</span>
-                                            <small class="text-muted">⭐ 4.7 (156)</small>
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-yellow">
+                                <div class="category-icon">🤖</div>
+                                <h5 class="category-title">AI Services</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-yellow">
+                                <div class="category-icon">📊</div>
+                                <h5 class="category-title">AI Services</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-orange">
+                                <div class="category-icon">💰</div>
+                                <h5 class="category-title">Finance &amp;</h5>
+                                <p class="category-subtitle">Accounting</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-blue">
+                                <div class="category-icon">👥</div>
+                                <h5 class="category-title">HR &amp; Training</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-blue">
+                                <div class="category-icon">⚖️</div>
+                                <h5 class="category-title">Legal</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-yellow">
+                                <div class="category-icon">👥</div>
+                                <h5 class="category-title">HR &amp; Training</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-orange">
+                                <div class="category-icon">🏗️</div>
+                                <h5 class="category-title">Engineering &amp;</h5>
+                                <p class="category-subtitle">Architecture</p>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- About Section -->
-                <section id="about" class="py-5 bg-light">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-8 mx-auto text-center">
-                                <h2>關於 Catcher</h2>
-                                <p class="lead">
-                                    這是一個專為台灣創作者設計的接發案平台演示版本。
-                                    我們致力於連接優秀的創作者與有需求的客戶，
-                                    讓創意能夠順利變現，讓好的作品被更多人看見。
-                                </p>
-                                <div class="row mt-4">
-                                    <div class="col-md-4">
-                                        <div class="text-center">
-                                            <div class="h1 text-primary">1000+</div>
-                                            <p>創作者</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="text-center">
-                                            <div class="h1 text-primary">5000+</div>
-                                            <p>完成案件</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="text-center">
-                                            <div class="h1 text-primary">98%</div>
-                                            <p>滿意度</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Demo Notice -->
+            <section class="py-3 bg-warning">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="mb-0">
+                                <strong>📢 這是展示版本</strong> - 
+                                完整功能開發中，詳細資訊請參考 
+                                <a href="https://github.com/KandiceWang/catcher-demo" class="text-dark">
+                                    <strong>GitHub Repository</strong>
+                                </a>
+                            </p>
                         </div>
                     </div>
-                </section>
-
-                <!-- Demo Notice -->
-                <section class="py-3 bg-warning">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <p class="mb-0">
-                                    <strong>📢 這是展示版本</strong> - 
-                                    完整功能開發中，詳細資訊請參考 
-                                    <a href="https://github.com/KandiceWang/catcher-demo" class="text-dark">
-                                        <strong>GitHub Repository</strong>
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </main>
+                </div>
+            </section>
 
             <footer class="border-top footer text-muted py-3">
                 <div class="container text-center">
-                    <p>&copy; 2025 - Catcher Demo - 台灣創作者接發案平台</p>
+                    <p>&copy; 2025 - Catcher - 連接客戶與自由工作者</p>
                     <p>
                         <a href="https://github.com/KandiceWang/catcher-demo">GitHub</a> | 
-                        <a href="#services">服務</a> | 
-                        <a href="#about">關於我們</a>
+                        <a href="#about">About us</a> | 
+                        <a href="#contact">Contact</a>
                     </p>
                 </div>
             </footer>
@@ -206,17 +314,45 @@ jobs:
             <script src="js/site.js"></script>
             
             <script>
-                // 簡單的頁面滾動效果
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        const target = document.querySelector(this.getAttribute('href'));
-                        if (target) {
-                            target.scrollIntoView({
-                                behavior: 'smooth'
-                            });
+                // 搜尋標籤切換功能
+                document.querySelectorAll('.search-tab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // 更新 placeholder 文字
+                        const input = document.querySelector('.search-input');
+                        if (this.textContent === 'Find talent') {
+                            input.placeholder = 'Search by role, or keywords';
+                        } else {
+                            input.placeholder = 'Search for jobs';
                         }
                     });
+                });
+
+                // 分類卡片點擊效果
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const title = this.querySelector('.category-title').textContent;
+                        alert(`正在開發 ${title} 功能...`);
+                    });
+                });
+
+                // 搜尋功能
+                document.querySelector('.search-btn').addEventListener('click', function() {
+                    const searchTerm = document.querySelector('.search-input').value;
+                    if (searchTerm.trim()) {
+                        alert(`正在搜尋: "${searchTerm}"\n\n此功能正在開發中...`);
+                    } else {
+                        alert('請輸入搜尋關鍵字');
+                    }
+                });
+
+                // Enter 鍵搜尋
+                document.querySelector('.search-input').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        document.querySelector('.search-btn').click();
+                    }
                 });
             </script>
         </body>
