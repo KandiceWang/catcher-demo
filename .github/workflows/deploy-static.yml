@@ -155,6 +155,114 @@ jobs:
                 .bg-purple { background-color: #dda0dd; }
                 .bg-pink { background-color: #f8bbd9; }
                 
+                /* Featured Portfolios Section */
+                .featured-portfolios-section {
+                    padding: 80px 0;
+                    background: #f8f9fa;
+                }
+                .portfolio-card {
+                    background: white;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                    transition: all 0.3s ease;
+                    margin-bottom: 30px;
+                    cursor: pointer;
+                }
+                .portfolio-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+                }
+                .portfolio-image {
+                    width: 100%;
+                    height: 250px;
+                    object-fit: cover;
+                    background: #e9ecef;
+                }
+                .portfolio-content {
+                    padding: 20px;
+                }
+                .portfolio-title {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    color: #2c5530;
+                    margin-bottom: 8px;
+                }
+                .portfolio-creator {
+                    color: #666;
+                    font-size: 0.9rem;
+                    margin-bottom: 10px;
+                }
+                .portfolio-category {
+                    display: inline-block;
+                    background: #e9ecef;
+                    color: #495057;
+                    padding: 4px 12px;
+                    border-radius: 12px;
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                }
+                
+                /* Top Creators Section */
+                .top-creators-section {
+                    padding: 80px 0;
+                    background: white;
+                }
+                .creator-card {
+                    background: white;
+                    border: 1px solid #e9ecef;
+                    border-radius: 12px;
+                    padding: 30px 20px;
+                    text-align: center;
+                    transition: all 0.3s ease;
+                    margin-bottom: 30px;
+                    cursor: pointer;
+                }
+                .creator-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+                }
+                .creator-avatar {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin: 0 auto 15px;
+                    border: 3px solid #e9ecef;
+                }
+                .creator-name {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    color: #2c5530;
+                    margin-bottom: 8px;
+                }
+                .creator-bio {
+                    color: #666;
+                    font-size: 0.9rem;
+                    line-height: 1.4;
+                    margin-bottom: 15px;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+                .creator-stats {
+                    color: #999;
+                    font-size: 0.8rem;
+                }
+                
+                /* Loading and Empty States */
+                .loading {
+                    text-align: center;
+                    padding: 60px 20px;
+                    color: #666;
+                }
+                .empty-state {
+                    text-align: center;
+                    padding: 60px 20px;
+                    color: #999;
+                }
+                
                 /* Mindmap 樣式 */
                 .mindmap-overlay {
                     position: fixed;
@@ -451,6 +559,30 @@ jobs:
                 </div>
             </section>
 
+            <!-- Featured Portfolios Section -->
+            <section class="featured-portfolios-section">
+                <div class="container">
+                    <h2 class="section-title">精選作品展示</h2>
+                    <p class="text-center mb-5 text-muted">探索台灣頂尖創作者的優秀作品</p>
+                    <div id="featuredPortfoliosGrid" class="row">
+                        <!-- 動態載入作品 -->
+                    </div>
+                    <div class="text-center mt-4">
+                        <a href="./creators.html" class="btn btn-outline-primary btn-lg">查看更多創作者</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Top Creators Section -->
+            <section class="top-creators-section">
+                <div class="container">
+                    <h2 class="section-title">熱門創作者</h2>
+                    <div id="topCreatorsList" class="row">
+                        <!-- 動態載入創作者 -->
+                    </div>
+                </div>
+            </section>
+
             <!-- Mindmap Overlay -->
             <div class="mindmap-overlay" id="mindmapOverlay">
                 <div class="mindmap-container">
@@ -707,6 +839,125 @@ jobs:
                         document.querySelector('.search-btn').click();
                     }
                 });
+
+                // 載入作品和創作者資料
+                loadHomepageData();
+
+                // 載入首頁資料函數
+                function loadHomepageData() {
+                    // 模擬精選作品資料
+                    const featuredPortfolios = [
+                        {
+                            id: '1',
+                            title: '現代簡約品牌設計',
+                            creator: '張設計師',
+                            category: '平面設計',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZjZiNGEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZjg1N2IiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNhKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+54++5Luj562A57SE5ZOB54mM6Kit6KiIPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '2', 
+                            title: '商業攝影作品集',
+                            creator: '李攝影師',
+                            category: '攝影',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2NjdlZWEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3NjRiYTIiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNiKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+5ZWG5qWt5pS25b2x5L2c5ZOB6ZuGPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '3',
+                            title: 'UI/UX 介面設計',
+                            creator: '王設計師', 
+                            category: 'UI設計',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImMiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM4ZmJjOGYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM5OGQ5ODIiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNjKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+VUkvVVgg5LuL6Z2i6Kit6KiIPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '4',
+                            title: '插畫創作',
+                            creator: '陳插畫家',
+                            category: '插畫',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmOGJiZDkiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmNWE2Y2QiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNkKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+5o+S55S15Ym15L2cPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '5',
+                            title: '網頁開發專案',
+                            creator: '程式設計師',
+                            category: '網頁開發',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImUiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNkZGEwZGQiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlNGI3ZTQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNlKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+57ay6aCB6ZaL55m85bCC5qGIPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '6',
+                            title: '3D 建模設計',
+                            creator: '3D設計師',
+                            category: '3D設計',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImYiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmNGE2MWIiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmYjhiMjQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNmKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+M0Qg5bu66Ieq6Kit6KiIPC90ZXh0Pjwvc3ZnPg=='
+                        }
+                    ];
+
+                    // 模擬創作者資料
+                    const topCreators = [
+                        {
+                            id: '1',
+                            name: '張設計師',
+                            bio: '專精品牌設計與視覺識別，擁有10年設計經驗',
+                            avatar: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iI2ZmNmI0YSIvPjx0ZXh0IHg9IjQwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5bygPC90ZXh0Pjwvc3ZnPg==',
+                            portfolios: 15
+                        },
+                        {
+                            id: '2',
+                            name: '李攝影師',
+                            bio: '商業攝影專家，專注於產品與人像攝影',
+                            avatar: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iIzY2N2VlYSIvPjx0ZXh0IHg9IjQwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5bugPC90ZXh0Pjwvc3ZnPg==',
+                            portfolios: 23
+                        },
+                        {
+                            id: '3',
+                            name: '王設計師',
+                            bio: 'UI/UX設計師，致力於創造優秀的用戶體驗',
+                            avatar: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iIzhmYmM4ZiIvPjx0ZXh0IHg9IjQwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+546LPC90ZXh0Pjwvc3ZnPg==',
+                            portfolios: 18
+                        }
+                    ];
+
+                    // 渲染精選作品
+                    const portfoliosGrid = document.getElementById('featuredPortfoliosGrid');
+                    if (portfoliosGrid) {
+                        portfoliosGrid.innerHTML = featuredPortfolios.map(portfolio => `
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="portfolio-card" onclick="viewPortfolio('${portfolio.id}')">
+                                    <img src="${portfolio.image}" alt="${portfolio.title}" class="portfolio-image">
+                                    <div class="portfolio-content">
+                                        <h5 class="portfolio-title">${portfolio.title}</h5>
+                                        <p class="portfolio-creator">by ${portfolio.creator}</p>
+                                        <span class="portfolio-category">${portfolio.category}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+
+                    // 渲染熱門創作者
+                    const creatorsList = document.getElementById('topCreatorsList');
+                    if (creatorsList) {
+                        creatorsList.innerHTML = topCreators.map(creator => `
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="creator-card" onclick="viewCreator('${creator.id}')">
+                                    <img src="${creator.avatar}" alt="${creator.name}" class="creator-avatar">
+                                    <h5 class="creator-name">${creator.name}</h5>
+                                    <p class="creator-bio">${creator.bio}</p>
+                                    <div class="creator-stats">${creator.portfolios} 個作品</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+
+                // 查看作品詳情
+                function viewPortfolio(id) {
+                    window.location.href = `./portfolio.html?id=${id}`;
+                }
+
+                // 查看創作者
+                function viewCreator(id) {
+                    window.location.href = `./creator.html?id=${id}`;
+                }
             </script>
         </body>
         </html>
