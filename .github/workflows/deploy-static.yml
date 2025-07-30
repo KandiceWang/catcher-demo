@@ -31,6 +31,20 @@ jobs:
         # Copy all static assets
         cp -r ./Catcher-demo/wwwroot/* ./static-site/ 2>/dev/null || :
         
+        # Copy additional HTML pages
+        cp ./creators.html ./static-site/ 2>/dev/null || :
+        cp ./creator.html ./static-site/ 2>/dev/null || :
+        cp ./portfolio.html ./static-site/ 2>/dev/null || :
+        cp ./test.html ./static-site/ 2>/dev/null || :
+        
+        # Copy JavaScript and CSS files
+        mkdir -p ./static-site/js
+        mkdir -p ./static-site/css
+        mkdir -p ./static-site/data
+        cp ./js/* ./static-site/js/ 2>/dev/null || :
+        cp ./css/* ./static-site/css/ 2>/dev/null || :
+        cp ./data/* ./static-site/data/ 2>/dev/null || :
+        
         # Create index.html
         cat > ./static-site/index.html << 'EOF'
         <!DOCTYPE html>
