@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能測試 - Catcher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/creator.css">
+    <link rel="stylesheet" href="/css/portfolio.css">
+</head>
+<body>
+    <!-- 導航列 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">Catcher</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">首頁</a>
+                <a class="nav-link" href="/creators.html">創作者</a>
+                <a class="nav-link active" href="/test.html">測試頁面</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要內容 -->
+    <main class="py-5">
+        <div class="container">
+            <h1 class="mb-4">Catcher 功能測試頁面</h1>
+            
+            <!-- 系統狀態 -->
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">系統狀態</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="systemStatus">正在檢查...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 資料庫測試 -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">創作者資料</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="creatorsData">載入中...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">作品資料</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="portfoliosData">載入中...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 功能測試按鈕 -->
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">功能測試</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <button class="btn btn-primary w-100" onclick="testSearch()">
+                                        測試搜尋功能
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-success w-100" onclick="testCreatorProfile()">
+                                        測試創作者頁面
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-info w-100" onclick="testPortfolioDetail()">
+                                        測試作品詳情
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-warning w-100" onclick="testDataCRUD()">
+                                        測試 CRUD 操作
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 測試結果 -->
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">測試結果</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="testResults">等待測試...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 頁面導航測試 -->
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">頁面導航測試</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <a href="./creator.html?id=creator1" class="btn btn-outline-primary w-100">
+                                        創作者頁面範例
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="./portfolio.html?id=portfolio1" class="btn btn-outline-success w-100">
+                                        作品頁面範例
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="./creators.html" class="btn btn-outline-info w-100">
+                                        創作者列表
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 資料庫和功能模組 -->
+    <script src="/js/database.js"></script>
+    <script src="/js/creator.js"></script>
+    <script src="/js/portfolio.js"></script>
+
+    <script>
+        let db;
+
+        // 頁面載入完成後初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSystem();
+        });
+
+        // 初始化系統
+        function initializeSystem() {
+            try {
+                // 初始化資料庫
+                db = new Database();
+                db.setLanguage('zh');
+                
+                updateSystemStatus('✅ 系統初始化成功');
+                loadTestData();
+                
+            } catch (error) {
+                updateSystemStatus('❌ 系統初始化失敗: ' + error.message);
+                console.error('初始化錯誤:', error);
+            }
+        }
+
+        // 更新系統狀態
+        function updateSystemStatus(status) {
+            document.getElementById('systemStatus').innerHTML = `
+                <div class="mb-2">${status}</div>
+                <div><small class="text-muted">時間: ${new Date().toLocaleString()}</small></div>
+            `;
+        }
+
+        // 載入測試資料
+        function loadTestData() {
+            try {
+                const creators = db.getAllCreators();
+                const portfolios = db.getAllPortfolios();
+
+                // 顯示創作者資料
+                document.getElementById('creatorsData').innerHTML = `
+                    <p><strong>創作者數量:</strong> ${creators.length}</p>
+                    <ul class="list-unstyled">
+                        ${creators.map(creator => `
+                            <li class="mb-1">
+                                <strong>${creator.displayName}</strong> 
+                                <small class="text-muted">(${creator.portfolioIds.length} 個作品)</small>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+
+                // 顯示作品資料
+                document.getElementById('portfoliosData').innerHTML = `
+                    <p><strong>作品數量:</strong> ${portfolios.length}</p>
+                    <ul class="list-unstyled">
+                        ${portfolios.map(portfolio => `
+                            <li class="mb-1">
+                                <strong>${portfolio.displayTitle}</strong>
+                                <small class="text-muted">(${portfolio.displayCategory})</small>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+
+            } catch (error) {
+                document.getElementById('creatorsData').innerHTML = '❌ 載入失敗: ' + error.message;
+                document.getElementById('portfoliosData').innerHTML = '❌ 載入失敗: ' + error.message;
+                console.error('載入資料錯誤:', error);
+            }
+        }
+
+        // 測試搜尋功能
+        function testSearch() {
+            addTestResult('開始測試搜尋功能...');
+            
+            try {
+                // 測試創作者搜尋
+                const creatorResults = db.searchCreators('設計');
+                addTestResult(`✅ 創作者搜尋 "設計": 找到 ${creatorResults.length} 個結果`);
+
+                // 測試作品搜尋
+                const portfolioResults = db.searchPortfolios('設計');
+                addTestResult(`✅ 作品搜尋 "設計": 找到 ${portfolioResults.length} 個結果`);
+
+                // 測試分類篩選
+                const categoryResults = db.getPortfoliosByCategory('平面設計');
+                addTestResult(`✅ 分類篩選 "平面設計": 找到 ${categoryResults.length} 個結果`);
+
+            } catch (error) {
+                addTestResult('❌ 搜尋測試失敗: ' + error.message);
+            }
+        }
+
+        // 測試創作者頁面
+        function testCreatorProfile() {
+            addTestResult('開始測試創作者頁面功能...');
+            
+            try {
+                const creators = db.getAllCreators();
+                if (creators.length > 0) {
+                    const firstCreator = creators[0];
+                    const creatorWithPortfolios = db.getCreatorById(firstCreator.id);
+                    
+                    addTestResult(`✅ 創作者資料載入: ${creatorWithPortfolios.displayName}`);
+                    addTestResult(`✅ 關聯作品載入: ${creatorWithPortfolios.portfolios.length} 個作品`);
+                } else {
+                    addTestResult('❌ 沒有創作者資料可供測試');
+                }
+            } catch (error) {
+                addTestResult('❌ 創作者頁面測試失敗: ' + error.message);
+            }
+        }
+
+        // 測試作品詳情
+        function testPortfolioDetail() {
+            addTestResult('開始測試作品詳情功能...');
+            
+            try {
+                const portfolios = db.getAllPortfolios();
+                if (portfolios.length > 0) {
+                    const firstPortfolio = portfolios[0];
+                    const portfolioWithCreator = db.getPortfolioById(firstPortfolio.id);
+                    
+                    addTestResult(`✅ 作品資料載入: ${portfolioWithCreator.displayTitle}`);
+                    addTestResult(`✅ 創作者資料載入: ${portfolioWithCreator.creator.displayName}`);
+                } else {
+                    addTestResult('❌ 沒有作品資料可供測試');
+                }
+            } catch (error) {
+                addTestResult('❌ 作品詳情測試失敗: ' + error.message);
+            }
+        }
+
+        // 測試 CRUD 操作
+        function testDataCRUD() {
+            addTestResult('開始測試 CRUD 操作...');
+            
+            try {
+                // 測試新增創作者
+                const newCreator = {
+                    name: { zh: '測試創作者', en: 'Test Creator' },
+                    bio: { zh: '這是測試用的創作者', en: 'This is a test creator' },
+                    avatar: 'data:image/svg+xml;base64,test'
+                };
+                
+                const createdCreator = db.addCreator(newCreator);
+                addTestResult(`✅ 新增創作者: ${createdCreator.displayName} (ID: ${createdCreator.id})`);
+
+                // 測試更新創作者
+                const updatedCreator = db.updateCreator(createdCreator.id, {
+                    name: { zh: '更新後的創作者', en: 'Updated Creator' }
+                });
+                addTestResult(`✅ 更新創作者: ${updatedCreator.displayName}`);
+
+                // 測試刪除創作者
+                const deleted = db.deleteCreator(createdCreator.id);
+                addTestResult(`✅ 刪除創作者: ${deleted ? '成功' : '失敗'}`);
+
+            } catch (error) {
+                addTestResult('❌ CRUD 操作測試失敗: ' + error.message);
+            }
+        }
+
+        // 添加測試結果
+        function addTestResult(message) {
+            const resultsDiv = document.getElementById('testResults');
+            const timestamp = new Date().toLocaleTimeString();
+            const newResult = `<div class="mb-1">[${timestamp}] ${message}</div>`;
+            
+            if (resultsDiv.innerHTML === '等待測試...') {
+                resultsDiv.innerHTML = newResult;
+            } else {
+                resultsDiv.innerHTML += newResult;
+            }
+            
+            // 自動滾動到底部
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>
