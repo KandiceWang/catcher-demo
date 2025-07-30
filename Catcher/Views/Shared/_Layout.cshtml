@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Catcher</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Catcher.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-palette me-2"></i>Catcher
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">首頁</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Services">探索服務</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                分類
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/Home/Services?category=平面設計">平面設計</a></li>
+                                <li><a class="dropdown-item" href="/Home/Services?category=插畫設計">插畫設計</a></li>
+                                <li><a class="dropdown-item" href="/Home/Services?category=UI/UX設計">UI/UX設計</a></li>
+                                <li><a class="dropdown-item" href="/Home/Services?category=攝影">攝影</a></li>
+                                <li><a class="dropdown-item" href="/Home/Services?category=影片製作">影片製作</a></li>
+                                <li><a class="dropdown-item" href="/Home/Services?category=文案寫作">文案寫作</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-heart"></i> 收藏
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-envelope"></i> 訊息
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i> 帳戶
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/Home/Dashboard"><i class="fas fa-tachometer-alt me-2"></i>儀表板</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>個人檔案</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>設定</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-2"></i>成為創作者</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>登出</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary ms-2" href="#">登入</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary ms-1" href="#">註冊</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main role="main" style="min-height: calc(100vh - 200px);">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-dark text-light py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="text-primary mb-3">
+                        <i class="fas fa-palette me-2"></i>Catcher
+                    </h5>
+                    <p class="text-muted">台灣最專業的創作者接發案平台，連結優質創作者與需求客戶。</p>
+                    <div class="social-links">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-white mb-3">服務分類</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/Home/Services?category=平面設計" class="text-muted">平面設計</a></li>
+                        <li><a href="/Home/Services?category=插畫設計" class="text-muted">插畫設計</a></li>
+                        <li><a href="/Home/Services?category=UI/UX設計" class="text-muted">UI/UX設計</a></li>
+                        <li><a href="/Home/Services?category=攝影" class="text-muted">攝影</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-white mb-3">關於我們</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted">關於Catcher</a></li>
+                        <li><a href="#" class="text-muted">使用條款</a></li>
+                        <li><a href="/Home/Privacy" class="text-muted">隱私政策</a></li>
+                        <li><a href="#" class="text-muted">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-white mb-3">創作者</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted">成為創作者</a></li>
+                        <li><a href="#" class="text-muted">創作者指南</a></li>
+                        <li><a href="#" class="text-muted">資源中心</a></li>
+                        <li><a href="#" class="text-muted">社群論壇</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-white mb-3">支援</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted">幫助中心</a></li>
+                        <li><a href="#" class="text-muted">常見問題</a></li>
+                        <li><a href="#" class="text-muted">客服中心</a></li>
+                        <li><a href="#" class="text-muted">舉報問題</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">&copy; 2025 Catcher. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">Made with <i class="fas fa-heart text-danger"></i> in Taiwan</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

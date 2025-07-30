@@ -1,0 +1,303 @@
+@{
+    ViewData["Title"] = "創作者儀表板";
+}
+
+<div class="container-fluid py-4">
+    <!-- Dashboard Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>創作者儀表板</h2>
+            <p class="text-muted">歡迎回來！管理您的服務和訂單</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>@ViewBag.UserStats.TotalOrders</h3>
+                            <p class="mb-0">總訂單數</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-shopping-cart fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>@ViewBag.UserStats.CompletedOrders</h3>
+                            <p class="mb-0">已完成</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>@ViewBag.UserStats.PendingOrders</h3>
+                            <p class="mb-0">進行中</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>NT$ @ViewBag.UserStats.ThisMonthEarnings.ToString("N0")</h3>
+                            <p class="mb-0">本月收入</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-dollar-sign fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Recent Orders -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">最近訂單</h5>
+                    <a href="#" class="btn btn-sm btn-primary">查看全部</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>訂單編號</th>
+                                    <th>服務</th>
+                                    <th>客戶</th>
+                                    <th>金額</th>
+                                    <th>狀態</th>
+                                    <th>交期</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#12345</td>
+                                    <td>Logo設計</td>
+                                    <td>王小明</td>
+                                    <td>NT$ 2,500</td>
+                                    <td><span class="badge bg-warning">進行中</span></td>
+                                    <td>2024-01-15</td>
+                                </tr>
+                                <tr>
+                                    <td>#12344</td>
+                                    <td>插畫設計</td>
+                                    <td>李小美</td>
+                                    <td>NT$ 3,000</td>
+                                    <td><span class="badge bg-info">等待確認</span></td>
+                                    <td>2024-01-12</td>
+                                </tr>
+                                <tr>
+                                    <td>#12343</td>
+                                    <td>名片設計</td>
+                                    <td>陳先生</td>
+                                    <td>NT$ 1,500</td>
+                                    <td><span class="badge bg-success">已完成</span></td>
+                                    <td>2024-01-10</td>
+                                </tr>
+                                <tr>
+                                    <td>#12342</td>
+                                    <td>海報設計</td>
+                                    <td>林小姐</td>
+                                    <td>NT$ 2,000</td>
+                                    <td><span class="badge bg-success">已完成</span></td>
+                                    <td>2024-01-08</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions & Analytics -->
+        <div class="col-lg-4">
+            <!-- Quick Actions -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">快速操作</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary">發布新服務</button>
+                        <button class="btn btn-outline-primary">編輯個人檔案</button>
+                        <button class="btn btn-outline-secondary">查看訊息</button>
+                        <button class="btn btn-outline-info">提領收益</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">收益趨勢</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="earningsChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Services -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">我的服務</h5>
+                    <button class="btn btn-success">新增服務</button>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card service-card">
+                                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 150px;">
+                                    <i class="fas fa-image fa-2x text-white"></i>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">專業Logo設計</h6>
+                                    <p class="small text-muted">NT$ 1,500 起</p>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="badge bg-success">已發布</span>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                操作
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">編輯</a></li>
+                                                <li><a class="dropdown-item" href="#">暫停</a></li>
+                                                <li><a class="dropdown-item" href="#">統計</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card service-card">
+                                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 150px;">
+                                    <i class="fas fa-image fa-2x text-white"></i>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">名片設計服務</h6>
+                                    <p class="small text-muted">NT$ 800 起</p>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="badge bg-success">已發布</span>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                操作
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">編輯</a></li>
+                                                <li><a class="dropdown-item" href="#">暫停</a></li>
+                                                <li><a class="dropdown-item" href="#">統計</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card service-card border-dashed">
+                                <div class="card-body text-center d-flex flex-column justify-content-center" style="height: 250px;">
+                                    <i class="fas fa-plus fa-3x text-muted mb-3"></i>
+                                    <h6 class="text-muted">新增服務</h6>
+                                    <button class="btn btn-outline-primary">建立新服務</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.service-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.border-dashed {
+    border: 2px dashed #dee2e6;
+    background-color: #f8f9fa;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0,123,255,0.05);
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Mock earnings chart
+const ctx = document.getElementById('earningsChart').getContext('2d');
+const earningsChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+        datasets: [{
+            label: '月收入',
+            data: [12000, 19000, 8000, 15000, 20000, 18000],
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return 'NT$' + value.toLocaleString();
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
