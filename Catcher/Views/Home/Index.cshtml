@@ -3,88 +3,169 @@
 }
 
 <!-- Hero Section -->
-<section class="hero-section bg-gradient-primary text-white py-5">
+<section class="hero-section py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 80vh;">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">找到最適合的創作者</h1>
-                <p class="lead mb-4">台灣最專業的創作者接發案平台，連結優質創作者與需求客戶</p>
-                <div class="d-flex gap-3">
-                    <a href="/Home/Services" class="btn btn-warning btn-lg">尋找服務</a>
-                    <a href="#" class="btn btn-outline-light btn-lg">成為創作者</a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <img src="/images/hero-illustration.svg" alt="創作者插圖" class="img-fluid">
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Search Section -->
-<section class="search-section py-4 bg-light">
-    <div class="container">
-        <div class="row justify-content-center">
+        <div class="row align-items-center justify-content-center text-center">
             <div class="col-lg-8">
-                <form action="/Home/Services" method="get" class="d-flex gap-2">
-                    <input type="text" name="search" class="form-control form-control-lg" placeholder="搜尋服務（例如：Logo設計、插畫、網站設計）">
-                    <button type="submit" class="btn btn-primary btn-lg px-4">搜尋</button>
-                </form>
+                <div class="hero-content">
+                    <h1 class="display-3 fw-bold text-dark mb-4" style="color: #2c5f6f !important;">
+                        Connecting clients in<br>
+                        need to freelancers<br>
+                        who deliver
+                    </h1>
+                    
+                    <!-- Tab Navigation -->
+                    <div class="search-tabs mb-4">
+                        <div class="btn-group w-100 mb-4" role="group" style="max-width: 500px; margin: 0 auto;">
+                            <button type="button" class="btn btn-lg search-tab-btn active" data-tab="talent" 
+                                    style="background: #2c5f6f; color: white; border: none; border-radius: 25px 0 0 25px;">
+                                Find talent
+                            </button>
+                            <button type="button" class="btn btn-lg search-tab-btn" data-tab="jobs"
+                                    style="background: #b8d4e3; color: #2c5f6f; border: none; border-radius: 0 25px 25px 0;">
+                                Browse jobs
+                            </button>
+                        </div>
+
+                        <!-- Search Box -->
+                        <div class="search-container" style="max-width: 600px; margin: 0 auto;">
+                            <form action="/Home/Services" method="get" class="search-form">
+                                <div class="input-group input-group-lg">
+                                    <input type="text" name="search" class="form-control search-input" 
+                                           placeholder="Search by role, or keywords"
+                                           style="border: none; border-radius: 25px 0 0 25px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                    <button type="submit" class="btn search-btn" 
+                                            style="background: #ff6b6b; color: white; border: none; border-radius: 0 25px 25px 0; padding: 0 30px;">
+                                        <i class="fas fa-search me-2"></i>search
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Categories Section -->
-<section class="categories-section py-5">
+<section class="categories-section py-5" style="background: white;">
     <div class="container">
-        <h2 class="text-center mb-5">熱門分類</h2>
+        <h2 class="text-center mb-5 fw-bold" style="color: #2c5f6f; font-size: 2.5rem;">Explore millions of pros</h2>
         <div class="row g-4">
-            <div class="col-6 col-md-4 col-lg-2">
-                <a href="/Home/Services?category=平面設計" class="text-decoration-none">
-                    <div class="category-card text-center p-4 bg-light rounded">
-                        <i class="fas fa-palette fa-3x text-primary mb-3"></i>
-                        <h5>平面設計</h5>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <a href="/Home/Services?category=插畫設計" class="text-decoration-none">
-                    <div class="category-card text-center p-4 bg-light rounded">
-                        <i class="fas fa-brush fa-3x text-primary mb-3"></i>
-                        <h5>插畫設計</h5>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
+            <!-- Development & IT -->
+            <div class="col-6 col-md-4 col-lg-4">
                 <a href="/Home/Services?category=UI/UX設計" class="text-decoration-none">
-                    <div class="category-card text-center p-4 bg-light rounded">
-                        <i class="fas fa-desktop fa-3x text-primary mb-3"></i>
-                        <h5>UI/UX設計</h5>
+                    <div class="category-card p-4 rounded-4 h-100 d-flex flex-column justify-content-center" 
+                         style="background: #f4e8d0; border: none; min-height: 140px; transition: all 0.3s ease;">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-code" style="font-size: 2.5rem; color: #8b4513;"></i>
+                        </div>
+                        <h5 class="mb-1 fw-bold" style="color: #2c5f6f;">Development &<br>IT</h5>
                     </div>
                 </a>
             </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <a href="/Home/Services?category=攝影" class="text-decoration-none">
-                    <div class="category-card text-center p-4 bg-light rounded">
-                        <i class="fas fa-camera fa-3x text-primary mb-3"></i>
-                        <h5>攝影</h5>
+
+            <!-- Design & Creative -->
+            <div class="col-6 col-md-4 col-lg-4">
+                <a href="/Home/Services?category=平面設計" class="text-decoration-none">
+                    <div class="category-card p-4 rounded-4 h-100 d-flex flex-column justify-content-center" 
+                         style="background: #b8d4e3; border: none; min-height: 140px; transition: all 0.3s ease;">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-palette" style="font-size: 2.5rem; color: #2c5f6f;"></i>
+                        </div>
+                        <h5 class="mb-1 fw-bold" style="color: #2c5f6f;">Design &<br>Creative</h5>
                     </div>
                 </a>
             </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <a href="/Home/Services?category=影片製作" class="text-decoration-none">
-                    <div class="category-card text-center p-4 bg-light rounded">
-                        <i class="fas fa-video fa-3x text-primary mb-3"></i>
-                        <h5>影片製作</h5>
+
+            <!-- AI Services -->
+            <div class="col-6 col-md-4 col-lg-4">
+                <a href="/Home/Services?category=AI服務" class="text-decoration-none">
+                    <div class="category-card p-4 rounded-4 h-100 d-flex flex-column justify-content-center" 
+                         style="background: #f4e8d0; border: none; min-height: 140px; transition: all 0.3s ease;">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-robot" style="font-size: 2.5rem; color: #8b4513;"></i>
+                        </div>
+                        <h5 class="mb-1 fw-bold" style="color: #2c5f6f;">AI Services</h5>
                     </div>
                 </a>
             </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <a href="/Home/Services?category=文案寫作" class="text-decoration-none">
-                    <div class="category-card text-center p-4 bg-light rounded">
-                        <i class="fas fa-pen fa-3x text-primary mb-3"></i>
-                        <h5>文案寫作</h5>
+
+            <!-- Marketing -->
+            <div class="col-6 col-md-4 col-lg-4">
+                <a href="/Home/Services?category=行銷" class="text-decoration-none">
+                    <div class="category-card p-4 rounded-4 h-100 d-flex flex-column justify-content-center" 
+                         style="background: #f4e8d0; border: none; min-height: 140px; transition: all 0.3s ease;">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-bullhorn" style="font-size: 2.5rem; color: #8b4513;"></i>
+                        </div>
+                        <h5 class="mb-1 fw-bold" style="color: #2c5f6f;">Marketing</h5>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Finance & Accounting -->
+            <div class="col-6 col-md-4 col-lg-4">
+                <a href="/Home/Services?category=財務會計" class="text-decoration-none">
+                    <div class="category-card p-4 rounded-4 h-100 d-flex flex-column justify-content-center" 
+                         style="background: #f4e8d0; border: none; min-height: 140px; transition: all 0.3s ease;">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-calculator" style="font-size: 2.5rem; color: #8b4513;"></i>
+                        </div>
+                        <h5 class="mb-1 fw-bold" style="color: #2c5f6f;">Finance &<br>Accounting</h5>
+                    </div>
+                </a>
+            </div>
+
+            <!-- HR & Training -->
+            <div class="col-6 col-md-4 col-lg-4">
+                <a href="/Home/Services?category=人資培訓" class="text-decoration-none">
+                    <div class="category-card p-4 rounded-4 h-100 d-flex flex-column justify-content-center" 
+                         style="background: #b8d4e3; border: none; min-height: 140px; transition: all 0.3s ease;">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-users" style="font-size: 2.5rem; color: #2c5f6f;"></i>
+                        </div>
+                        <h5 class="mb-1 fw-bold" style="color: #2c5f6f;">HR & Training</h5>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Legal -->
+            <div class="col-6 col-md-4 col-lg-4">
+                <a href="/Home/Services?category=法律服務" class="text-decoration-none">
+                    <div class="category-card p-4 rounded-4 h-100 d-flex flex-column justify-content-center" 
+                         style="background: #b8d4e3; border: none; min-height: 140px; transition: all 0.3s ease;">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-balance-scale" style="font-size: 2.5rem; color: #2c5f6f;"></i>
+                        </div>
+                        <h5 class="mb-1 fw-bold" style="color: #2c5f6f;">Legal</h5>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Admin Support -->
+            <div class="col-6 col-md-4 col-lg-4">
+                <a href="/Home/Services?category=行政支援" class="text-decoration-none">
+                    <div class="category-card p-4 rounded-4 h-100 d-flex flex-column justify-content-center" 
+                         style="background: #f4e8d0; border: none; min-height: 140px; transition: all 0.3s ease;">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-user-tie" style="font-size: 2.5rem; color: #8b4513;"></i>
+                        </div>
+                        <h5 class="mb-1 fw-bold" style="color: #2c5f6f;">Admin Support</h5>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Engineering & Architecture -->
+            <div class="col-6 col-md-4 col-lg-4">
+                <a href="/Home/Services?category=工程建築" class="text-decoration-none">
+                    <div class="category-card p-4 rounded-4 h-100 d-flex flex-column justify-content-center" 
+                         style="background: #f4e8d0; border: none; min-height: 140px; transition: all 0.3s ease;">
+                        <div class="category-icon mb-3">
+                            <i class="fas fa-drafting-compass" style="font-size: 2.5rem; color: #8b4513;"></i>
+                        </div>
+                        <h5 class="mb-1 fw-bold" style="color: #2c5f6f;">Engineering &<br>Architecture</h5>
                     </div>
                 </a>
             </div>
@@ -92,20 +173,20 @@
     </div>
 </section>
 
-<!-- Featured Services Section -->
-<section class="featured-services py-5 bg-light">
+<!-- Featured Services Section (保持原有功能) -->
+<section class="featured-services py-5" style="background: #f8f9fa;">
     <div class="container">
-        <h2 class="text-center mb-5">熱門服務</h2>
+        <h2 class="text-center mb-5 fw-bold" style="color: #2c5f6f;">精選服務</h2>
         <div class="row g-4">
             @foreach (var service in ViewBag.FeaturedServices)
             {
                 <div class="col-md-6 col-lg-4">
-                    <div class="card service-card h-100">
-                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
-                            <i class="fas fa-image fa-3x text-white"></i>
+                    <div class="card service-card h-100 border-0 shadow-sm">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-image fa-3x text-muted"></i>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">@service.Title</h5>
+                            <h5 class="card-title" style="color: #2c5f6f;">@service.Title</h5>
                             <p class="text-muted mb-2">by @service.CreatorName</p>
                             <div class="d-flex align-items-center mb-2">
                                 <div class="stars text-warning me-2">
@@ -117,8 +198,8 @@
                                 <span class="text-muted small">@service.Rating (@service.ReviewCount)</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 text-primary mb-0">NT$ @service.Price.ToString("N0")</span>
-                                <a href="/Home/ServiceDetail/@service.Id" class="btn btn-outline-primary">查看詳情</a>
+                                <span class="h5 mb-0" style="color: #ff6b6b;">NT$ @service.Price.ToString("N0")</span>
+                                <a href="/Home/ServiceDetail/@service.Id" class="btn btn-outline-primary rounded-pill">查看詳情</a>
                             </div>
                         </div>
                     </div>
@@ -126,61 +207,102 @@
             }
         </div>
         <div class="text-center mt-5">
-            <a href="/Home/Services" class="btn btn-primary btn-lg">查看更多服務</a>
-        </div>
-    </div>
-</section>
-
-<!-- How It Works Section -->
-<section class="how-it-works py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">如何使用</h2>
-        <div class="row g-4">
-            <div class="col-md-4 text-center">
-                <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                    <span class="h2 mb-0">1</span>
-                </div>
-                <h4>搜尋服務</h4>
-                <p class="text-muted">瀏覽各種創作者服務，找到符合需求的服務包</p>
-            </div>
-            <div class="col-md-4 text-center">
-                <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                    <span class="h2 mb-0">2</span>
-                </div>
-                <h4>下單購買</h4>
-                <p class="text-muted">選擇合適的服務方案，安全付款下單</p>
-            </div>
-            <div class="col-md-4 text-center">
-                <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                    <span class="h2 mb-0">3</span>
-                </div>
-                <h4>收到作品</h4>
-                <p class="text-muted">創作者按時交付高品質作品，完成交易</p>
-            </div>
+            <a href="/Home/Services" class="btn btn-lg rounded-pill px-5" style="background: #2c5f6f; color: white;">查看更多服務</a>
         </div>
     </div>
 </section>
 
 <style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.search-tab-btn {
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.search-tab-btn.active {
+    background: #2c5f6f !important;
+    color: white !important;
+}
+
+.search-tab-btn:not(.active) {
+    background: #b8d4e3 !important;
+    color: #2c5f6f !important;
+}
+
+.search-tab-btn:not(.active):hover {
+    background: #a0c4d4 !important;
+}
+
+.search-input {
+    font-size: 1.1rem;
+    padding: 15px 20px;
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+.search-btn {
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: #ff5252 !important;
+    transform: translateY(-1px);
 }
 
 .category-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
 }
 
 .service-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    border-radius: 15px !important;
 }
 
 .service-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+}
+
+.btn-outline-primary {
+    border-color: #2c5f6f;
+    color: #2c5f6f;
+}
+
+.btn-outline-primary:hover {
+    background-color: #2c5f6f;
+    border-color: #2c5f6f;
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab switching functionality
+    const tabButtons = document.querySelectorAll('.search-tab-btn');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Update placeholder text based on selected tab
+            const searchInput = document.querySelector('.search-input');
+            if (this.dataset.tab === 'talent') {
+                searchInput.placeholder = 'Search by role, or keywords';
+            } else {
+                searchInput.placeholder = 'Search for job opportunities';
+            }
+        });
+    });
+});
+</script>

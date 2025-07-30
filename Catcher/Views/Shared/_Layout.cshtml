@@ -11,67 +11,37 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index">
-                    <i class="fas fa-palette me-2"></i>Catcher
+                <a class="navbar-brand fw-bold d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index"
+                   style="color: #2c5f6f; font-size: 1.5rem;">
+                    <div class="me-2" style="width: 40px; height: 40px; background: #2c5f6f; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                    CATCHER
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
-                    <ul class="navbar-nav me-auto">
+                    <ul class="navbar-nav me-auto ms-4">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">首頁</a>
+                            <a class="nav-link fw-medium" asp-area="" asp-controller="Home" asp-action="Index" style="color: #2c5f6f;">首頁</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Services">探索服務</a>
+                            <a class="nav-link fw-medium" asp-area="" asp-controller="Home" asp-action="Services" style="color: #2c5f6f;">About us</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                分類
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/Home/Services?category=平面設計">平面設計</a></li>
-                                <li><a class="dropdown-item" href="/Home/Services?category=插畫設計">插畫設計</a></li>
-                                <li><a class="dropdown-item" href="/Home/Services?category=UI/UX設計">UI/UX設計</a></li>
-                                <li><a class="dropdown-item" href="/Home/Services?category=攝影">攝影</a></li>
-                                <li><a class="dropdown-item" href="/Home/Services?category=影片製作">影片製作</a></li>
-                                <li><a class="dropdown-item" href="/Home/Services?category=文案寫作">文案寫作</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" href="#" style="color: #2c5f6f;">Contact</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-heart"></i> 收藏
+                            <a class="btn rounded-pill px-4 py-2 fw-medium" href="#" 
+                               style="background: #ff6b6b; color: white; border: none;">
+                                Log in
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-envelope"></i> 訊息
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user-circle"></i> 帳戶
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="/Home/Dashboard"><i class="fas fa-tachometer-alt me-2"></i>儀表板</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>個人檔案</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>設定</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-2"></i>成為創作者</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>登出</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-outline-primary ms-2" href="#">登入</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-primary ms-1" href="#">註冊</a>
                         </li>
                     </ul>
                 </div>
