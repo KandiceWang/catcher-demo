@@ -28,10 +28,10 @@ jobs:
       run: |
         mkdir -p ./static-site
         
-        # Copy all static assets
-        cp -r ./Catcher-demo/wwwroot/* ./static-site/ 2>/dev/null || :
+        # Copy all static assets from wwwroot
+        cp -r ./wwwroot/* ./static-site/ 2>/dev/null || :
         
-        # Copy additional HTML pages
+        # Copy additional HTML pages from root
         cp ./creators.html ./static-site/ 2>/dev/null || :
         cp ./creator.html ./static-site/ 2>/dev/null || :
         cp ./portfolio.html ./static-site/ 2>/dev/null || :
