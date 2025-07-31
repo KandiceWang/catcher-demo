@@ -69,6 +69,17 @@ jobs:
                 .navbar-brand::before {
                     content: "🕸️ ";
                 }
+                
+                /* 導航欄響應式設計 */
+                @media (max-width: 768px) {
+                    .navbar-brand {
+                        font-size: 1.3rem;
+                    }
+                    .btn.rounded-pill {
+                        padding: 8px 20px;
+                        font-size: 0.9rem;
+                    }
+                }
                 .hero-section {
                     background-color: #f5f4f0;
                     padding: 80px 0;
@@ -79,6 +90,25 @@ jobs:
                     font-weight: bold;
                     line-height: 1.2;
                     margin-bottom: 20px;
+                }
+                
+                /* 響應式設計 - 手機版 */
+                @media (max-width: 768px) {
+                    .hero-title {
+                        font-size: 2.5rem;
+                        text-align: center;
+                    }
+                    .search-container {
+                        margin: 20px 0;
+                        padding: 30px 20px;
+                    }
+                    .search-tabs {
+                        margin-bottom: 20px;
+                    }
+                    .search-tab {
+                        padding: 10px 20px;
+                        font-size: 0.9rem;
+                    }
                 }
                 .search-container {
                     background: linear-gradient(135deg, #a8d5e2 0%, #7fb8c4 100%);
@@ -161,6 +191,24 @@ jobs:
                     font-size: 0.9rem;
                     color: #666;
                     margin: 5px 0 0 0;
+                }
+                
+                /* 響應式設計 - 分類卡片 */
+                @media (max-width: 576px) {
+                    .category-card {
+                        height: 150px;
+                        padding: 20px 15px;
+                    }
+                    .category-icon {
+                        font-size: 2rem;
+                        margin-bottom: 10px;
+                    }
+                    .category-title {
+                        font-size: 1rem;
+                    }
+                    .category-subtitle {
+                        font-size: 0.8rem;
+                    }
                 }
                 .bg-blue { background-color: #a8d5e2; }
                 .bg-yellow { background-color: #f4e4a6; }
@@ -263,6 +311,23 @@ jobs:
                 .creator-stats {
                     color: #999;
                     font-size: 0.8rem;
+                }
+                
+                /* 響應式設計 - 作品和創作者卡片 */
+                @media (max-width: 768px) {
+                    .portfolio-image {
+                        height: 200px;
+                    }
+                    .portfolio-content {
+                        padding: 15px;
+                    }
+                    .creator-card {
+                        padding: 20px 15px;
+                    }
+                    .creator-avatar {
+                        width: 60px;
+                        height: 60px;
+                    }
                 }
                 
                 /* Loading and Empty States */
@@ -385,7 +450,21 @@ jobs:
                 .line-h { height: 2px; }
                 .line-v { width: 2px; }
                 
-                /* 響應式設計 */
+                /* 響應式設計 - Mindmap */
+                @media (min-width: 1920px) {
+                    .mindmap-container {
+                        width: 90vw;
+                        height: 85vh;
+                    }
+                    .mindmap {
+                        min-height: 1000px;
+                    }
+                    .mindmap-sub {
+                        font-size: 0.9rem !important;
+                        padding: 10px 15px;
+                    }
+                }
+                
                 @media (max-width: 1200px) {
                     .mindmap-container {
                         width: 98vw;
@@ -427,20 +506,6 @@ jobs:
                     .mindmap-title {
                         font-size: 1.2rem;
                         margin-bottom: 10px;
-                    }
-                }
-                
-                @media (min-width: 1920px) {
-                    .mindmap-container {
-                        width: 90vw;
-                        height: 85vh;
-                    }
-                    .mindmap {
-                        min-height: 1000px;
-                    }
-                    .mindmap-sub {
-                        font-size: 0.9rem !important;
-                        padding: 10px 15px;
                     }
                 }
             </style>
