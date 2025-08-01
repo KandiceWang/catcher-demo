@@ -1,0 +1,1055 @@
+name: Deploy Static Site
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Create static site
+      run: |
+        mkdir -p ./static-site
+        
+        # Copy all static assets from wwwroot
+        cp -r ./wwwroot/* ./static-site/ 2>/dev/null || :
+        
+        # Copy additional HTML pages from root
+        cp ./creators.html ./static-site/ 2>/dev/null || :
+        cp ./creator.html ./static-site/ 2>/dev/null || :
+        cp ./portfolio.html ./static-site/ 2>/dev/null || :
+        cp ./test.html ./static-site/ 2>/dev/null || :
+        
+        # Copy JavaScript and CSS files
+        mkdir -p ./static-site/js
+        mkdir -p ./static-site/css
+        mkdir -p ./static-site/data
+        cp ./js/* ./static-site/js/ 2>/dev/null || :
+        cp ./css/* ./static-site/css/ 2>/dev/null || :
+        cp ./data/* ./static-site/data/ 2>/dev/null || :
+        
+        # Create index.html
+        cat > ./static-site/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html lang="zh-TW">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Catcher - 連接客戶與自由工作者</title>
+            <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+            <link rel="stylesheet" href="css/site.css" />
+            <link rel="icon" href="favicon.ico" />
+            <style>
+                body {
+                    background-color: #f5f4f0;
+                    font-family: 'Arial', sans-serif;
+                }
+                .navbar-brand {
+                    color: #2c5530 !important;
+                    font-weight: bold;
+                    font-size: 1.5rem;
+                }
+                .navbar-brand::before {
+                    content: "🕸️ ";
+                }
+                
+                /* 導航欄響應式設計 */
+                @media (max-width: 768px) {
+                    .navbar-brand {
+                        font-size: 1.3rem;
+                    }
+                    .btn.rounded-pill {
+                        padding: 8px 20px;
+                        font-size: 0.9rem;
+                    }
+                }
+                .hero-section {
+                    background-color: #f5f4f0;
+                    padding: 80px 0;
+                }
+                .hero-title {
+                    color: #2c5530;
+                    font-size: 3.5rem;
+                    font-weight: bold;
+                    line-height: 1.2;
+                    margin-bottom: 20px;
+                }
+                
+                /* 響應式設計 - 手機版 */
+                @media (max-width: 768px) {
+                    .hero-title {
+                        font-size: 2.5rem;
+                        text-align: center;
+                    }
+                    .search-container {
+                        margin: 20px 0;
+                        padding: 30px 20px;
+                    }
+                    .search-tabs {
+                        margin-bottom: 20px;
+                    }
+                    .search-tab {
+                        padding: 10px 20px;
+                        font-size: 0.9rem;
+                    }
+                }
+                .search-container {
+                    background: linear-gradient(135deg, #a8d5e2 0%, #7fb8c4 100%);
+                    border-radius: 20px;
+                    padding: 40px;
+                    margin: 40px 0;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                }
+                .search-tabs {
+                    margin-bottom: 30px;
+                }
+                .search-tab {
+                    background: #2c5530;
+                    color: white;
+                    border: none;
+                    padding: 12px 30px;
+                    border-radius: 25px;
+                    margin-right: 10px;
+                    font-weight: 500;
+                }
+                .search-tab.active {
+                    background: white;
+                    color: #2c5530;
+                }
+                .search-input-group {
+                    position: relative;
+                }
+                .search-input {
+                    border: none;
+                    border-radius: 25px;
+                    padding: 15px 25px;
+                    font-size: 1.1rem;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                }
+                .search-btn {
+                    background: #ff6b4a;
+                    border: none;
+                    border-radius: 25px;
+                    color: white;
+                    padding: 15px 30px;
+                    font-weight: bold;
+                    margin-left: 10px;
+                }
+                .categories-section {
+                    padding: 60px 0;
+                }
+                .section-title {
+                    color: #2c5530;
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                    text-align: center;
+                    margin-bottom: 50px;
+                }
+                .category-card {
+                    border-radius: 15px;
+                    padding: 30px 20px;
+                    text-align: center;
+                    margin-bottom: 20px;
+                    transition: transform 0.3s ease;
+                    border: none;
+                    height: 180px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+                .category-card:hover {
+                    transform: translateY(-5px);
+                }
+                .category-icon {
+                    font-size: 2.5rem;
+                    margin-bottom: 15px;
+                }
+                .category-title {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    color: #2c5530;
+                    margin: 0;
+                }
+                .category-subtitle {
+                    font-size: 0.9rem;
+                    color: #666;
+                    margin: 5px 0 0 0;
+                }
+                
+                /* 響應式設計 - 分類卡片 */
+                @media (max-width: 576px) {
+                    .category-card {
+                        height: 150px;
+                        padding: 20px 15px;
+                    }
+                    .category-icon {
+                        font-size: 2rem;
+                        margin-bottom: 10px;
+                    }
+                    .category-title {
+                        font-size: 1rem;
+                    }
+                    .category-subtitle {
+                        font-size: 0.8rem;
+                    }
+                }
+                .bg-blue { background-color: #a8d5e2; }
+                .bg-yellow { background-color: #f4e4a6; }
+                .bg-orange { background-color: #f4a261; }
+                .bg-green { background-color: #8fbc8f; }
+                .bg-purple { background-color: #dda0dd; }
+                .bg-pink { background-color: #f8bbd9; }
+                
+                /* Featured Portfolios Section */
+                .featured-portfolios-section {
+                    padding: 80px 0;
+                    background: #f8f9fa;
+                }
+                .portfolio-card {
+                    background: white;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                    transition: all 0.3s ease;
+                    margin-bottom: 30px;
+                    cursor: pointer;
+                }
+                .portfolio-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+                }
+                .portfolio-image {
+                    width: 100%;
+                    height: 250px;
+                    object-fit: cover;
+                    background: #e9ecef;
+                }
+                .portfolio-content {
+                    padding: 20px;
+                }
+                .portfolio-title {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    color: #2c5530;
+                    margin-bottom: 8px;
+                }
+                .portfolio-creator {
+                    color: #666;
+                    font-size: 0.9rem;
+                    margin-bottom: 10px;
+                }
+                .portfolio-category {
+                    display: inline-block;
+                    background: #e9ecef;
+                    color: #495057;
+                    padding: 4px 12px;
+                    border-radius: 12px;
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                }
+                
+                /* Top Creators Section */
+                .top-creators-section {
+                    padding: 80px 0;
+                    background: white;
+                }
+                .creator-card {
+                    background: white;
+                    border: 1px solid #e9ecef;
+                    border-radius: 12px;
+                    padding: 30px 20px;
+                    text-align: center;
+                    transition: all 0.3s ease;
+                    margin-bottom: 30px;
+                    cursor: pointer;
+                }
+                .creator-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+                }
+                .creator-avatar {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin: 0 auto 15px;
+                    border: 3px solid #e9ecef;
+                }
+                .creator-name {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    color: #2c5530;
+                    margin-bottom: 8px;
+                }
+                .creator-bio {
+                    color: #666;
+                    font-size: 0.9rem;
+                    line-height: 1.4;
+                    margin-bottom: 15px;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+                .creator-stats {
+                    color: #999;
+                    font-size: 0.8rem;
+                }
+                
+                /* 響應式設計 - 作品和創作者卡片 */
+                @media (max-width: 768px) {
+                    .portfolio-image {
+                        height: 200px;
+                    }
+                    .portfolio-content {
+                        padding: 15px;
+                    }
+                    .creator-card {
+                        padding: 20px 15px;
+                    }
+                    .creator-avatar {
+                        width: 60px;
+                        height: 60px;
+                    }
+                }
+                
+                /* Loading and Empty States */
+                .loading {
+                    text-align: center;
+                    padding: 60px 20px;
+                    color: #666;
+                }
+                .empty-state {
+                    text-align: center;
+                    padding: 60px 20px;
+                    color: #999;
+                }
+                
+                /* Mindmap 樣式 */
+                .mindmap-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    z-index: 9999;
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .mindmap-container {
+                    background: white;
+                    border-radius: 20px;
+                    padding: 20px;
+                    width: 95vw;
+                    height: 90vh;
+                    overflow: auto;
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                }
+                .mindmap-close {
+                    position: absolute;
+                    top: 15px;
+                    right: 20px;
+                    background: none;
+                    border: none;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    color: #666;
+                    z-index: 10;
+                }
+                .mindmap-title {
+                    text-align: center;
+                    color: #2c5530;
+                    margin-bottom: 20px;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    flex-shrink: 0;
+                }
+                
+                /* 心智圖節點樣式 */
+                .mindmap {
+                    flex: 1;
+                    position: relative;
+                    min-height: 800px;
+                    width: 100%;
+                    overflow: visible;
+                }
+                .mindmap-center {
+                    background: #1a1a2e;
+                    color: white;
+                    padding: 20px 40px;
+                    border-radius: 15px;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    margin: 50px 0;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                }
+                .mindmap-branch {
+                    position: absolute;
+                    padding: 12px 20px;
+                    border-radius: 10px;
+                    font-weight: 500;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    min-width: 120px;
+                    text-align: center;
+                }
+                .mindmap-branch:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                }
+                .mindmap-sub {
+                    position: absolute;
+                    padding: 8px 15px;
+                    border-radius: 8px;
+                    font-size: 0.9rem;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    min-width: 100px;
+                    text-align: center;
+                    border: 2px solid white;
+                }
+                .mindmap-sub:hover {
+                    transform: scale(1.05);
+                }
+                
+                /* 分支顏色 */
+                .branch-creator { background: #4CAF50; color: white; }
+                .branch-portfolio { background: #FFC107; color: black; }
+                .branch-home { background: #FF9800; color: white; }
+                .branch-usage { background: #F44336; color: white; }
+                
+                /* 連接線 */
+                .mindmap-line {
+                    position: absolute;
+                    background: #666;
+                    transform-origin: 0 50%;
+                }
+                .line-h { height: 2px; }
+                .line-v { width: 2px; }
+                
+                /* 響應式設計 - Mindmap */
+                @media (min-width: 1920px) {
+                    .mindmap-container {
+                        width: 90vw;
+                        height: 85vh;
+                    }
+                    .mindmap {
+                        min-height: 1000px;
+                    }
+                    .mindmap-sub {
+                        font-size: 0.9rem !important;
+                        padding: 10px 15px;
+                    }
+                }
+                
+                @media (max-width: 1200px) {
+                    .mindmap-container {
+                        width: 98vw;
+                        height: 85vh;
+                        padding: 15px;
+                    }
+                    .mindmap-sub {
+                        font-size: 0.7rem !important;
+                        padding: 6px 10px;
+                        min-width: 80px;
+                    }
+                }
+                
+                @media (max-width: 768px) {
+                    .mindmap-container {
+                        width: 100vw;
+                        height: 100vh;
+                        padding: 10px;
+                        border-radius: 0;
+                    }
+                    .mindmap {
+                        min-height: 100%;
+                    }
+                    .mindmap-center {
+                        font-size: 1rem;
+                        padding: 10px 20px;
+                    }
+                    .mindmap-branch {
+                        padding: 8px 12px;
+                        font-size: 0.8rem;
+                        min-width: 80px;
+                    }
+                    .mindmap-sub {
+                        padding: 4px 8px;
+                        font-size: 0.6rem !important;
+                        min-width: 60px;
+                        line-height: 1.2;
+                    }
+                    .mindmap-title {
+                        font-size: 1.2rem;
+                        margin-bottom: 10px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+                <div class="container">
+                    <a class="navbar-brand" href="#">CATCHER</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about">About us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contact">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" id="mindmapBtn">🗺️ Mindmap</a>
+                            </li>
+                        </ul>
+                        <button class="btn btn-outline-danger rounded-pill px-4">Log in</button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <h1 class="hero-title">
+                                Connecting clients in<br>
+                                need to freelancers<br>
+                                who deliver
+                            </h1>
+                        </div>
+                        <div class="col-lg-6">
+                            <!-- Search Container -->
+                            <div class="search-container">
+                                <div class="search-tabs">
+                                    <button class="search-tab active">Find talent</button>
+                                    <button class="search-tab">Browse jobs</button>
+                                </div>
+                                <div class="search-input-group">
+                                    <div class="d-flex">
+                                        <input type="text" class="form-control search-input flex-grow-1" 
+                                               placeholder="Search by role, or keywords">
+                                        <button class="btn search-btn">🔍 search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories-section">
+                <div class="container">
+                    <h2 class="section-title">Explore millions of pros</h2>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-yellow">
+                                <div class="category-icon">&lt;/&gt;</div>
+                                <h5 class="category-title">Development &amp;</h5>
+                                <p class="category-subtitle">IT</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-blue">
+                                <div class="category-icon">🎨</div>
+                                <h5 class="category-title">Designice</h5>
+                                <p class="category-subtitle">Creative</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-yellow">
+                                <div class="category-icon">🤖</div>
+                                <h5 class="category-title">AI Services</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-yellow">
+                                <div class="category-icon">📊</div>
+                                <h5 class="category-title">AI Services</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-orange">
+                                <div class="category-icon">💰</div>
+                                <h5 class="category-title">Finance &amp;</h5>
+                                <p class="category-subtitle">Accounting</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-blue">
+                                <div class="category-icon">👥</div>
+                                <h5 class="category-title">HR &amp; Training</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-blue">
+                                <div class="category-icon">⚖️</div>
+                                <h5 class="category-title">Legal</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-yellow">
+                                <div class="category-icon">👥</div>
+                                <h5 class="category-title">HR &amp; Training</h5>
+                                <p class="category-subtitle"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card category-card bg-orange">
+                                <div class="category-icon">🏗️</div>
+                                <h5 class="category-title">Engineering &amp;</h5>
+                                <p class="category-subtitle">Architecture</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Portfolios Section -->
+            <section class="featured-portfolios-section">
+                <div class="container">
+                    <h2 class="section-title">精選作品展示</h2>
+                    <p class="text-center mb-5 text-muted">探索台灣頂尖創作者的優秀作品</p>
+                    <div id="featuredPortfoliosGrid" class="row">
+                        <!-- 動態載入作品 -->
+                    </div>
+                    <div class="text-center mt-4">
+                        <a href="./creators.html" class="btn btn-outline-primary btn-lg">查看更多創作者</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Top Creators Section -->
+            <section class="top-creators-section">
+                <div class="container">
+                    <h2 class="section-title">熱門創作者</h2>
+                    <div id="topCreatorsList" class="row">
+                        <!-- 動態載入創作者 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mindmap Overlay -->
+            <div class="mindmap-overlay" id="mindmapOverlay">
+                <div class="mindmap-container">
+                    <button class="mindmap-close" id="mindmapClose">&times;</button>
+                    <h3 class="mindmap-title">Catcher 網站架構圖</h3>
+                    <div class="mindmap" id="mindmapCanvas">
+                        <!-- 中心節點 -->
+                        <div class="mindmap-center" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            Catcher
+                        </div>
+                        
+                        <!-- 創作者頁面分支 (左上) -->
+                        <div class="mindmap-branch branch-creator" style="top: 20%; left: 15%;">
+                            創作者頁面
+                        </div>
+                        
+                        <!-- 作品頁面分支 (左中) -->
+                        <div class="mindmap-branch branch-portfolio" style="top: 40%; left: 10%;">
+                            作品頁面
+                        </div>
+                        
+                        <!-- 首頁分支 (左下) -->
+                        <div class="mindmap-branch branch-home" style="top: 70%; left: 15%;">
+                            首頁
+                        </div>
+                        
+                        <!-- 使用流程分支 (右中) -->
+                        <div class="mindmap-branch branch-usage" style="top: 45%; right: 10%;">
+                            使用流程
+                        </div>
+                        
+                        <!-- 使用流程子節點 (右側展開) -->
+                        <div class="mindmap-sub bg-pink" style="top: 10%; right: 15%; font-size: 0.8rem;">
+                            進入首頁
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 15%; right: 25%; font-size: 0.75rem;">
+                            顯示Logo和名稱<br>可登入帳號
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 22%; right: 30%; font-size: 0.8rem;">
+                            顯示推薦作品
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 28%; right: 35%; font-size: 0.75rem;">
+                            關鍵字搜尋<br>依推薦序顯示搜尋結果
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 36%; right: 25%; font-size: 0.75rem;">
+                            點擊主要分類<br>依推薦序顯示作品列表
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 44%; right: 40%; font-size: 0.75rem;">
+                            顯示創作者各類和頭像
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 52%; right: 25%; font-size: 0.8rem;">
+                            進入作品頁面
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 58%; right: 35%; font-size: 0.7rem;">
+                            顯示作品圖、動圖或影片<br>顯示作品資訊<br>顯示作品價格
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 67%; right: 30%; font-size: 0.8rem;">
+                            點擊購買
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 73%; right: 40%; font-size: 0.7rem;">
+                            登入帳號<br>開始交易流程<br>一對一金流資訊<br>確認交易，訂單成立
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 82%; right: 25%; font-size: 0.8rem;">
+                            進入創作者頁面
+                        </div>
+                        <div class="mindmap-sub bg-pink" style="top: 88%; right: 35%; font-size: 0.75rem;">
+                            顯示頭像<br>顯示個人資訊<br>顯示作品列表
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo Notice -->
+            <section class="py-3 bg-warning">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="mb-0">
+                                <strong>📢 這是展示版本</strong> - 
+                                完整功能開發中，詳細資訊請參考 
+                                <a href="https://github.com/KandiceWang/catcher-demo" class="text-dark">
+                                    <strong>GitHub Repository</strong>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="border-top footer text-muted py-3">
+                <div class="container text-center">
+                    <p>&copy; 2025 - Catcher - 連接客戶與自由工作者</p>
+                    <p>
+                        <a href="https://github.com/KandiceWang/catcher-demo">GitHub</a> | 
+                        <a href="#about">About us</a> | 
+                        <a href="#contact">Contact</a>
+                    </p>
+                </div>
+            </footer>
+
+            <script src="lib/jquery/dist/jquery.min.js"></script>
+            <script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="js/site.js"></script>
+            
+            <script>
+                // Mindmap 功能
+                const mindmapBtn = document.getElementById('mindmapBtn');
+                const mindmapOverlay = document.getElementById('mindmapOverlay');
+                const mindmapClose = document.getElementById('mindmapClose');
+                
+                // 顯示 Mindmap
+                mindmapBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    mindmapOverlay.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    
+                    // 動畫效果
+                    mindmapOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        mindmapOverlay.style.opacity = '1';
+                    }, 10);
+                });
+                
+                // 關閉 Mindmap
+                function closeMindmap() {
+                    mindmapOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        mindmapOverlay.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }, 300);
+                }
+                
+                mindmapClose.addEventListener('click', closeMindmap);
+                
+                // 點擊背景關閉
+                mindmapOverlay.addEventListener('click', function(e) {
+                    if (e.target === mindmapOverlay) {
+                        closeMindmap();
+                    }
+                });
+                
+                // ESC 鍵關閉
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && mindmapOverlay.style.display === 'flex') {
+                        closeMindmap();
+                    }
+                });
+                
+                // Mindmap 節點點擊功能
+                document.querySelectorAll('.mindmap-branch, .mindmap-sub').forEach(node => {
+                    node.addEventListener('click', function() {
+                        const nodeText = this.textContent.trim();
+                        let message = '';
+                        
+                        switch(nodeText) {
+                            case '創作者頁面':
+                                message = '創作者頁面功能：\n• 個人檔案展示\n• 作品集管理\n• 接案狀態設定\n\n開發狀態：規劃中';
+                                break;
+                            case '作品頁面':
+                                message = '作品頁面功能：\n• 作品詳細展示\n• 價格和規格說明\n• 購買流程\n\n開發狀態：設計中';
+                                break;
+                            case '首頁':
+                                message = '首頁功能：\n• 品牌展示\n• 搜尋功能\n• 分類瀏覽\n• 推薦作品\n\n開發狀態：已完成基礎版';
+                                break;
+                            case '使用流程':
+                                message = '使用流程包含：\n• 瀏覽到購買的完整流程\n• 用戶註冊登入\n• 交易系統\n\n開發狀態：流程設計中';
+                                break;
+                            default:
+                                message = `${nodeText}\n\n這是網站功能的一部分，正在開發中...`;
+                        }
+                        
+                        alert(message);
+                    });
+                });
+                
+                // 動態更新 Mindmap 數據結構
+                const mindmapData = {
+                    center: 'Catcher',
+                    branches: [
+                        {
+                            name: '創作者頁面',
+                            color: 'branch-creator',
+                            status: '規劃中',
+                            features: ['個人檔案', '作品集', '接案設定']
+                        },
+                        {
+                            name: '作品頁面', 
+                            color: 'branch-portfolio',
+                            status: '設計中',
+                            features: ['作品展示', '價格說明', '購買流程']
+                        },
+                        {
+                            name: '首頁',
+                            color: 'branch-home', 
+                            status: '已完成',
+                            features: ['品牌展示', '搜尋', '分類', '推薦']
+                        },
+                        {
+                            name: '使用流程',
+                            color: 'branch-usage',
+                            status: '設計中', 
+                            features: ['註冊登入', '瀏覽', '購買', '交易']
+                        }
+                    ]
+                };
+                
+                // 更新狀態的函數（供開發時使用）
+                function updateMindmapStatus(branchName, newStatus) {
+                    const branch = mindmapData.branches.find(b => b.name === branchName);
+                    if (branch) {
+                        branch.status = newStatus;
+                        console.log(`${branchName} 狀態已更新為: ${newStatus}`);
+                        // 這裡可以添加重新渲染 mindmap 的邏輯
+                    }
+                }
+                
+                // 搜尋標籤切換功能
+                document.querySelectorAll('.search-tab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // 更新 placeholder 文字
+                        const input = document.querySelector('.search-input');
+                        if (this.textContent === 'Find talent') {
+                            input.placeholder = 'Search by role, or keywords';
+                        } else {
+                            input.placeholder = 'Search for jobs';
+                        }
+                    });
+                });
+
+                // 分類卡片點擊效果
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const title = this.querySelector('.category-title').textContent;
+                        alert(`正在開發 ${title} 功能...`);
+                    });
+                });
+
+                // 搜尋功能
+                document.querySelector('.search-btn').addEventListener('click', function() {
+                    const searchTerm = document.querySelector('.search-input').value;
+                    if (searchTerm.trim()) {
+                        alert(`正在搜尋: "${searchTerm}"\n\n此功能正在開發中...`);
+                    } else {
+                        alert('請輸入搜尋關鍵字');
+                    }
+                });
+
+                // Enter 鍵搜尋
+                document.querySelector('.search-input').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        document.querySelector('.search-btn').click();
+                    }
+                });
+
+                // 載入作品和創作者資料
+                loadHomepageData();
+
+                // 載入首頁資料函數
+                function loadHomepageData() {
+                    // 模擬精選作品資料
+                    const featuredPortfolios = [
+                        {
+                            id: '1',
+                            title: '現代簡約品牌設計',
+                            creator: '張設計師',
+                            category: '平面設計',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZjZiNGEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZjg1N2IiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNhKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+54++5Luj562A57SE5ZOB54mM6Kit6KiIPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '2', 
+                            title: '商業攝影作品集',
+                            creator: '李攝影師',
+                            category: '攝影',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2NjdlZWEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3NjRiYTIiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNiKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+5ZWG5qWt5pS25b2x5L2c5ZOB6ZuGPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '3',
+                            title: 'UI/UX 介面設計',
+                            creator: '王設計師', 
+                            category: 'UI設計',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImMiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM4ZmJjOGYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM5OGQ5ODIiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNjKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+VUkvVVgg5LuL6Z2i6Kit6KiIPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '4',
+                            title: '插畫創作',
+                            creator: '陳插畫家',
+                            category: '插畫',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmOGJiZDkiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmNWE2Y2QiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNkKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+5o+S55S15Ym15L2cPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '5',
+                            title: '網頁開發專案',
+                            creator: '程式設計師',
+                            category: '網頁開發',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImUiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNkZGEwZGQiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlNGI3ZTQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNlKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+57ay6aCB6ZaL55m85bCC5qGIPC90ZXh0Pjwvc3ZnPg=='
+                        },
+                        {
+                            id: '6',
+                            title: '3D 建模設計',
+                            creator: '3D設計師',
+                            category: '3D設計',
+                            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImYiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmNGE2MWIiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmYjhiMjQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNmKSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+M0Qg5bu66Ieq6Kit6KiIPC90ZXh0Pjwvc3ZnPg=='
+                        }
+                    ];
+
+                    // 模擬創作者資料
+                    const topCreators = [
+                        {
+                            id: '1',
+                            name: '張設計師',
+                            bio: '專精品牌設計與視覺識別，擁有10年設計經驗',
+                            avatar: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iI2ZmNmI0YSIvPjx0ZXh0IHg9IjQwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5bygPC90ZXh0Pjwvc3ZnPg==',
+                            portfolios: 15
+                        },
+                        {
+                            id: '2',
+                            name: '李攝影師',
+                            bio: '商業攝影專家，專注於產品與人像攝影',
+                            avatar: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iIzY2N2VlYSIvPjx0ZXh0IHg9IjQwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5bugPC90ZXh0Pjwvc3ZnPg==',
+                            portfolios: 23
+                        },
+                        {
+                            id: '3',
+                            name: '王設計師',
+                            bio: 'UI/UX設計師，致力於創造優秀的用戶體驗',
+                            avatar: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iIzhmYmM4ZiIvPjx0ZXh0IHg9IjQwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+546LPC90ZXh0Pjwvc3ZnPg==',
+                            portfolios: 18
+                        }
+                    ];
+
+                    // 渲染精選作品
+                    const portfoliosGrid = document.getElementById('featuredPortfoliosGrid');
+                    if (portfoliosGrid) {
+                        portfoliosGrid.innerHTML = featuredPortfolios.map(portfolio => `
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="portfolio-card" onclick="viewPortfolio('${portfolio.id}')">
+                                    <img src="${portfolio.image}" alt="${portfolio.title}" class="portfolio-image">
+                                    <div class="portfolio-content">
+                                        <h5 class="portfolio-title">${portfolio.title}</h5>
+                                        <p class="portfolio-creator">by ${portfolio.creator}</p>
+                                        <span class="portfolio-category">${portfolio.category}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+
+                    // 渲染熱門創作者
+                    const creatorsList = document.getElementById('topCreatorsList');
+                    if (creatorsList) {
+                        creatorsList.innerHTML = topCreators.map(creator => `
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="creator-card" onclick="viewCreator('${creator.id}')">
+                                    <img src="${creator.avatar}" alt="${creator.name}" class="creator-avatar">
+                                    <h5 class="creator-name">${creator.name}</h5>
+                                    <p class="creator-bio">${creator.bio}</p>
+                                    <div class="creator-stats">${creator.portfolios} 個作品</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+
+                // 查看作品詳情
+                function viewPortfolio(id) {
+                    window.location.href = `./portfolio.html?id=${id}`;
+                }
+
+                // 查看創作者
+                function viewCreator(id) {
+                    window.location.href = `./creator.html?id=${id}`;
+                }
+            </script>
+        </body>
+        </html>
+        EOF
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './static-site'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
