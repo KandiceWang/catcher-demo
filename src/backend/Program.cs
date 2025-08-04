@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using Catcher.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add Entity Framework
+builder.Services.AddDbContext<CatcherDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
