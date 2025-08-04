@@ -19,16 +19,16 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
-        cache-dependency-path: catcher-frontend/package-lock.json
+        cache-dependency-path: src/frontend/package-lock.json
         
     - name: Install dependencies
       run: |
-        cd catcher-frontend
+        cd src/frontend
         npm ci
         
     - name: Build React app
       run: |
-        cd catcher-frontend
+        cd src/frontend
         npm run build
         
     - name: Deploy to GitHub Pages
@@ -36,7 +36,7 @@ jobs:
       if: github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./catcher-frontend/build
+        publish_dir: ./src/frontend/build
         
     # 保留舊版部署作為備份
     - name: Copy old static files as backup
