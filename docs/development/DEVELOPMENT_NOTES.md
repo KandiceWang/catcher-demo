@@ -43,7 +43,21 @@ npm run build
 #### 🔧 **技術堆疊**
 - **React 18** + **TypeScript**
 - **Tailwind CSS** (已設定完成)
-- **建議添加**: React Router for SPA 路由
+- **建議添加**: 
+  - React Router v6 (SPA 路由)
+  - React Query (資料管理)
+  - React Hook Form (表單處理)
+  - Zustand (狀態管理)
+  - react-dropzone (檔案上傳)
+
+#### 📋 **下階段開發重點**
+基於團隊規劃的網站結構，優先開發：
+1. **會員系統** - 創作者/客戶註冊登入
+2. **作品集系統** - 創作者作品展示
+3. **搜尋瀏覽** - 關鍵字搜尋和分類瀏覽
+4. **基礎交易** - 簡單的下單付款流程
+
+詳細開發計畫請參考：[開發計畫](../project-management/DEVELOPMENT_PLAN.md)
 
 ---
 
@@ -70,6 +84,18 @@ dotnet run
 - **ASP.NET Core 8.0**
 - **Entity Framework Core 9.0**
 - **Azure SQL Database** (計劃中)
+- **建議添加**:
+  - JWT + Identity (身份驗證)
+  - Redis (快取)
+  - Azure Blob Storage (檔案儲存)
+  - SendGrid (Email 服務)
+
+#### 📋 **下階段開發重點**
+根據網站架構規劃，需要建立：
+1. **核心資料模型** - User, Creator, Client, Service, Order, Portfolio
+2. **身份驗證 API** - 註冊/登入/角色權限
+3. **檔案上傳 API** - 作品集圖片/影片上傳
+4. **搜尋 API** - 關鍵字搜尋和篩選功能
 
 ---
 
