@@ -49,6 +49,24 @@ Catcher/
 - Visual Studio Code
 - Azure CLI (部署時需要)
 
+### 🔧 開發環境設定
+
+**前端開發**
+```bash
+cd src/frontend
+npm install
+npm start          # 開發伺服器 http://localhost:3000
+```
+
+**後端開發**
+```bash
+cd src/backend
+dotnet run         # API 伺服器 https://localhost:5001
+```
+
+### 📖 開發指南
+詳細的開發注意事項請參考：[開發指南](docs/development/DEVELOPMENT_NOTES.md)
+
 ### ⚡ 安裝步驟
 
 1. **複製專案**

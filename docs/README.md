@@ -15,6 +15,8 @@
 
 - **💻 development/** - 開發相關文件
   - 技術實作指南
+  - 開發注意事項
+  - 開發檢查清單
   - API 文件
   - 技術遷移計畫
 
@@ -33,6 +35,8 @@
 | 需要什麼 | 去哪裡找 |
 |---------|---------|
 | 如何設定開發環境 | [guides/SETUP_INSTRUCTIONS.md](guides/SETUP_INSTRUCTIONS.md) |
+| 開發注意事項和最佳實踐 | [development/DEVELOPMENT_NOTES.md](development/DEVELOPMENT_NOTES.md) |
+| 開發檢查清單 | [development/DEVELOPMENT_CHECKLIST.md](development/DEVELOPMENT_CHECKLIST.md) |
 | 如何部署到 Azure | [deployment/AZURE_DATABASE_QUICK_SETUP.md](deployment/AZURE_DATABASE_QUICK_SETUP.md) |
 | 專案進度和狀態 | [project-management/PROJECT_HANDOVER_REPORT.md](project-management/PROJECT_HANDOVER_REPORT.md) |
 | 技術選型分析 | [analysis/DATABASE_RECOMMENDATION.md](analysis/DATABASE_RECOMMENDATION.md) |
