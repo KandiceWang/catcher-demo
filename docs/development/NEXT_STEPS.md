@@ -17,6 +17,15 @@
 - 會員系統
 - 資料庫設計
 - API 架構
+- **完整 UI 頁面** (詳見 [UI 頁面清單](UI_PAGES_LIST.md))
+
+📋 **UI 開發重點**:
+根據優先級，需要先完成以下頁面：
+1. 🔥 **第一優先級**: 註冊/登入、創作者列表、創作者詳細頁、儀表板
+2. 🔶 **第二優先級**: 作品集管理、服務管理、交易流程頁面
+3. 🔷 **第三優先級**: 訊息中心、分析報表、系統設定頁面
+
+完整的 24 個核心頁面清單請參考：[UI 頁面規劃文檔](UI_PAGES_LIST.md)
 
 ---
 
@@ -207,8 +216,19 @@ function App() {
 
 ### 🎯 **第2-3天: 註冊登入頁面**
 
+#### 建立頁面結構
+**建議先建立以下頁面檔案**:
+```bash
+# 建立頁面目錄結構
+mkdir -p src/pages/auth
+mkdir -p src/pages/dashboard  
+mkdir -p src/pages/creator
+mkdir -p src/components/layout
+mkdir -p src/components/forms
+```
+
 #### 註冊頁面組件
-**src/pages/RegisterPage.tsx**
+**src/pages/auth/RegisterPage.tsx**
 ```tsx
 export const RegisterPage = () => {
   const [userType, setUserType] = useState<'creator' | 'client' | 'hybrid'>('creator');
@@ -243,6 +263,38 @@ export const RegisterPage = () => {
   );
 };
 ```
+
+#### 登入頁面組件
+**src/pages/auth/LoginPage.tsx**
+```tsx
+export const LoginPage = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const login = useAuthStore(state => state.login);
+  
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            登入您的帳號
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          {/* 表單內容 */}
+        </form>
+      </div>
+    </div>
+  );
+};
+```
+
+#### 任務清單:
+- [ ] 建立註冊頁面 (支援三種使用者類型)
+- [ ] 建立登入頁面
+- [ ] 建立表單驗證邏輯
+- [ ] 建立密碼重設頁面
+- [ ] 建立 Email 驗證頁面
+- [ ] 設計響應式佈局
 
 ### 🎯 **第4-5天: 狀態管理與 API 整合**
 
