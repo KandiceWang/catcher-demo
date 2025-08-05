@@ -12,6 +12,10 @@ jobs:
       pages: write
       id-token: write
     
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -32,6 +36,9 @@ jobs:
       run: |
         cd src/frontend
         npm run build
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
         
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v2
