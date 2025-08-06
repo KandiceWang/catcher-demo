@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/catcher-demo/static/css/main.601545d8.css",
-    "main.js": "/catcher-demo/static/js/main.1047b8e2.js",
-    "index.html": "/catcher-demo/index.html",
-    "main.601545d8.css.map": "/catcher-demo/static/css/main.601545d8.css.map",
-    "main.1047b8e2.js.map": "/catcher-demo/static/js/main.1047b8e2.js.map"
+    "main.css": "/static/css/main.af9be976.css",
+    "main.js": "/static/js/main.0571bb42.js",
+    "index.html": "/index.html",
+    "main.af9be976.css.map": "/static/css/main.af9be976.css.map",
+    "main.0571bb42.js.map": "/static/js/main.0571bb42.js.map"
   },
   "entrypoints": [
-    "static/css/main.601545d8.css",
-    "static/js/main.1047b8e2.js"
+    "static/css/main.af9be976.css",
+    "static/js/main.0571bb42.js"
   ]
 }
